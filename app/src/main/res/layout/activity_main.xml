@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green"
     tools:context="com.example.student.hatsker.MainActivity">
 
     <Button
@@ -38,4 +39,12 @@
         android:layout_centerHorizontal="true" />
 
 
+    <Button
+        android:id="@+id/getContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="69dp"
+        android:text="Get all contacts"
+        android:layout_below="@+id/offService"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

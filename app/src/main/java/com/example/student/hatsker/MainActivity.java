@@ -2,10 +2,13 @@ package com.example.student.hatsker;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         final SMSreciever Res=new SMSreciever();
 
         final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        final TextView status = (TextView) findViewById(R.id.status);
 
 
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isRegistered) {
                     unregisterReceiver(Res);
+                }
+                reg = false;
+                status.setText("Status: OFF");
                     isRegistered = false;
                     TextView offOn = (TextView)findViewById(R.id.offOn);
                     offOn.setText("Off");
@@ -64,5 +71,25 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this_, "Receiver is already off", duration).show();
             }
         });
+
+        Button getCon=(Button)findViewById(R.id.getContacts);
+
+        getCon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] {ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+                startManagingCursor(cursor);
+
+                if (cursor.getCount() > 0)
+                {
+                    while (cursor.moveToNext())
+                    {
+                        // process them as you want
+                        Log.i("DATA"," ID "+cursor.getString(0)+" NAME "+cursor.getString(1)+" PHONE "+cursor.getString(2));
+                    }
+                }
+            }
+        });
+
     }
 }
