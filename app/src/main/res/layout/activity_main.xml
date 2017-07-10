@@ -4,16 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green"
     tools:context="com.example.student.hatsker.MainActivity">
 
     <Button
         android:id="@+id/toService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="on"
-        android:onClick="ToServButt"
         android:layout_above="@+id/offService"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:onClick="ToServButt"
+        android:text="on" />
 
     <Button
         android:id="@+id/offService"
@@ -23,4 +24,31 @@
         android:onClick="OffServButt"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SMS hooking"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp" />
+
+    <TextView
+        android:id="@+id/status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Status: OFF" />
+
+    <Button
+        android:id="@+id/getContacts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="69dp"
+        android:text="Get all contacts"
+        android:layout_below="@+id/offService"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
