@@ -64,5 +64,10 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this_, "Receiver is already off", duration).show();
             }
         });
+
+
+
+
+
     }
 }
