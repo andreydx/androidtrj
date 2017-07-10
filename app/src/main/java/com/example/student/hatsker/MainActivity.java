@@ -4,10 +4,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
+
+    boolean reg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerReceiver(new SMSreciever(),intentFilter);
+                registerReceiver(Res,intentFilter);
+                reg = true;
 
             }
         });
@@ -37,7 +41,10 @@ public class MainActivity extends AppCompatActivity {
         ServiceOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                unregisterReceiver(Res);
+                if(reg) {
+                    unregisterReceiver(Res);
+                }
+                reg = false;
             }
         });
     }
