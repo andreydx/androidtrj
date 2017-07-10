@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         final SMSreciever Res=new SMSreciever();
 
         final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-        final TextView status = (TextView) findViewById(R.id.status);
 
 
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
@@ -61,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (isRegistered) {
                     unregisterReceiver(Res);
-                }
-                reg = false;
-                status.setText("Status: OFF");
                     isRegistered = false;
                     TextView offOn = (TextView)findViewById(R.id.offOn);
                     offOn.setText("Off");
@@ -72,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button getCon=(Button)findViewById(R.id.getContacts);
+        Button getCon = (Button)findViewById(R.id.getContacts);
 
         getCon.setOnClickListener(new View.OnClickListener() {
             @Override
