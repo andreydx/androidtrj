@@ -17,16 +17,16 @@ public class MainActivity extends AppCompatActivity {
 
 
         Button ServiceOnButton=(Button)findViewById(R.id.toService);
+
         final SMSreciever Res=new SMSreciever();
+
+        final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 
 
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
                 registerReceiver(new SMSreciever(),intentFilter);
-                //Res.onReceive(this_, intent);
-                //startService(new Intent(this_, MyService.class));
 
             }
         });
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         ServiceOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                stopService(new Intent(this_, MyService.class));
+                unregisterReceiver(Res);
             }
         });
     }
