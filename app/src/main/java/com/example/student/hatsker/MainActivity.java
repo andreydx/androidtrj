@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     boolean isRegistered = false;
-    int duration = Toast.LENGTH_LONG;
+    int duration = Toast.LENGTH_SHORT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    new Toast(this_).makeText(this_, "Receiver is already on", duration).show();
+                    Toast.makeText(this_, "Receiver is already on", duration).show();
                 }
 
 
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                     TextView offOn = (TextView)findViewById(R.id.offOn);
                     offOn.setText("Off");
                 } else
-                    new Toast(this_).makeText(this_, "Receiver is already off", duration).show();
+                    Toast.makeText(this_, "Receiver is already off", duration).show();
             }
         });
     }
