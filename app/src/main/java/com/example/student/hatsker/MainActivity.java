@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerReceiver(new SMSreciever(),intentFilter);
+                registerReceiver(Res,intentFilter);
 
             }
         });
