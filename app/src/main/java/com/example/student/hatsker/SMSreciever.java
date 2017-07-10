@@ -21,6 +21,8 @@ public class SMSreciever extends BroadcastReceiver
     {
         final Bundle bundle = intent.getExtras();
 
+        Log.d("bubug", "ama one of them");
+
         try {
 
             if (bundle != null) {

@@ -6,8 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
+
+
+    boolean isRegistered = false;
+    int duration = Toast.LENGTH_LONG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +32,19 @@ public class MainActivity extends AppCompatActivity {
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                registerReceiver(Res,intentFilter);
+                if(!isRegistered)
+                {
+                    registerReceiver(Res,intentFilter);
+                    isRegistered=true;
+                    TextView offOn = (TextView)findViewById(R.id.offOn);
+                    offOn.setText("On");
+                }
+                else
+                {
+                    new Toast(this_).makeText(this_, "Receiver is already on", duration).show();
+                }
+
+
 
             }
         });
@@ -37,7 +55,13 @@ public class MainActivity extends AppCompatActivity {
         ServiceOffButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                unregisterReceiver(Res);
+                if (isRegistered) {
+                    unregisterReceiver(Res);
+                    isRegistered = false;
+                    TextView offOn = (TextView)findViewById(R.id.offOn);
+                    offOn.setText("Off");
+                } else
+                    new Toast(this_).makeText(this_, "Receiver is already off", duration).show();
             }
         });
     }
