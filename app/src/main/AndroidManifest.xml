@@ -18,12 +18,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".MyService"
-            android:enabled="true"
-            android:exported="true">
-        </service>
-
     </application>
 
     <receiver android:name="com.androidexample.broadcastreceiver.IncomingSms">
