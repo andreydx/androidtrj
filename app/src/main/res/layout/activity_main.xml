@@ -40,8 +40,25 @@
         android:id="@+id/getContacts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="69dp"
+        android:layout_marginTop="43dp"
         android:text="Get all contacts"
         android:layout_below="@+id/offService"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/CallLg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="Get call log"
+        android:layout_below="@+id/getContacts"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/sysInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get all Info"
+        android:layout_below="@+id/CallLg"
+        android:layout_alignEnd="@+id/CallLg" />
 </RelativeLayout>

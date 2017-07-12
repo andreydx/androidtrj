@@ -2,7 +2,12 @@ package com.example.student.hatsker;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.nfc.Tag;
+import android.provider.CallLog;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,17 +18,26 @@ import android.widget.TextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MainActivity extends AppCompatActivity {
 
 
     boolean isRegistered = false;
     int duration = Toast.LENGTH_SHORT;
+    MainActivity act=this;
+    ExecutorService executorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         final MainActivity this_=this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        executorService = Executors.newFixedThreadPool(4);
 
 
         Button ServiceOnButton=(Button)findViewById(R.id.toService);
@@ -31,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         final SMSreciever Res=new SMSreciever();
 
         final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+
+        final GetInfo getInfo = new GetInfo();
 
 
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
@@ -88,5 +104,80 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        final Button getCallLog = (Button)findViewById(R.id.CallLg);
+
+        getCallLog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Call details: ",getCallDetails());
+            }
+        });
+
+        final Button getSysInfo = (Button)findViewById(R.id.sysInfo);
+        getSysInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("System info details: ",getInfo.getInfosAboutDevice(act));
+                installedApps();
+            }
+        });
+
+
+
+    }
+
+    private String getCallDetails() {
+        StringBuffer sb = new StringBuffer();
+        Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null, null, null, null);
+        int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
+        int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
+        int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+        int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+        sb.append("Call Details :");
+        while (managedCursor.moveToNext()) {
+            String phNumber = managedCursor.getString(number);
+            String callType = managedCursor.getString(type);
+            String callDate = managedCursor.getString(date);
+            Date callDayTime = new Date(Long.valueOf(callDate));
+            String callDuration = managedCursor.getString(duration);
+            String dir = null;
+            int dircode = Integer.parseInt(callType);
+            switch (dircode) {
+                case CallLog.Calls.OUTGOING_TYPE:
+                    dir = "OUTGOING";
+                    break;
+
+                case CallLog.Calls.INCOMING_TYPE:
+                    dir = "INCOMING";
+                    break;
+
+                case CallLog.Calls.MISSED_TYPE:
+                    dir = "MISSED";
+                    break;
+            }
+            sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- "
+                    + dir + " \nCall Date:--- " + callDayTime
+                    + " \nCall duration in sec :--- " + callDuration);
+            sb.append("\n----------------------------------");
+        }
+        managedCursor.close();
+
+        return sb.toString();
+
+
+    }
+    public void installedApps()
+    {
+        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
+        for (int i=0; i < packList.size(); i++)
+        {
+            PackageInfo packInfo = packList.get(i);
+            if (  (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+            {
+                String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+                Log.d("App № " + Integer.toString(i), appName);
+            }
+        }
     }
 }
