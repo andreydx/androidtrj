@@ -169,8 +169,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void installedApps()
     {
-        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
-        for (int i=0; i < packList.size(); i++)
+        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);        for (int i=0; i < packList.size(); i++)
         {
             PackageInfo packInfo = packList.get(i);
             if (  (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)

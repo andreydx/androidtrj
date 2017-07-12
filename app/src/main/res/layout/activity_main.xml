@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:background="@color/blue"
     tools:context="com.example.student.hatsker.MainActivity">
 
     <Button
@@ -61,4 +61,6 @@
         android:text="Get all Info"
         android:layout_below="@+id/CallLg"
         android:layout_alignEnd="@+id/CallLg" />
+
+
 </RelativeLayout>
