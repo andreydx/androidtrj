@@ -44,4 +44,14 @@
         android:text="Get all contacts"
         android:layout_below="@+id/offService"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/FileGetter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/getContacts"
+        android:layout_alignStart="@+id/getContacts"
+        android:layout_below="@+id/getContacts"
+        android:layout_marginTop="13dp"
+        android:text="Get Files" />
 </RelativeLayout>
