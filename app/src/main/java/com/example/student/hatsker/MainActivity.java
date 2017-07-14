@@ -1,23 +1,29 @@
 package com.example.student.hatsker;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.nfc.Tag;
 import android.provider.CallLog;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -82,6 +88,37 @@ public class MainActivity extends AppCompatActivity {
                     offOn.setText("Off");
                 } else
                     Toast.makeText(this_, "Receiver is already off", duration).show();
+            }
+        });
+
+        Button getPicture=(Button)findViewById(R.id.picture);
+
+        getPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String[] projection = new String[]{
+                        MediaStore.Images.ImageColumns._ID,
+                        MediaStore.Images.ImageColumns.DATA,
+                        MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME,
+                        MediaStore.Images.ImageColumns.DATE_TAKEN,
+                        MediaStore.Images.ImageColumns.MIME_TYPE
+                };
+                final Cursor cursor = getApplicationContext().getContentResolver()
+                        .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null,
+                                null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+
+
+
+
+                if (cursor.moveToFirst()) {
+                    final ImageView imageView = (ImageView) findViewById(R.id.imageView);
+                    String imageLocation = cursor.getString(1);
+                    File imageFile = new File(imageLocation);
+                    if (imageFile.exists()) {   // TODO: is there a better way to do this?
+                        Bitmap bm = BitmapFactory.decodeFile(imageLocation);
+                        imageView.setImageBitmap(bm);
+                    }
+                }
             }
         });
 
@@ -179,4 +216,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+
+
 }
