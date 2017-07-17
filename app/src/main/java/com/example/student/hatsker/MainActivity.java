@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+
+
         Button ServiceOffButton=(Button)findViewById(R.id.offService);
 
         ServiceOffButton.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 {
                     while (cursor.moveToNext())
                     {
-                        // process them as you want
+
                         Log.i("DATA"," ID "+cursor.getString(0)+" NAME "+cursor.getString(1)+" PHONE "+cursor.getString(2));
                     }
                 }
