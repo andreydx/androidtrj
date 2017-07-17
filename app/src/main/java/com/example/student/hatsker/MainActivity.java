@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -32,7 +33,7 @@ public class MainActivity extends AppCompatActivity
         final MainActivity this_=this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        executorService= Executors.newFixedThreadPool(3);
+        executorService= Executors.newFixedThreadPool(5);
 
 
         Button ServiceOnButton=(Button)findViewById(R.id.toService);
@@ -40,19 +41,35 @@ public class MainActivity extends AppCompatActivity
         final SMSreciever Res=new SMSreciever();
 
         final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        Button Sng=(Button)findViewById(R.id.SongsButton);
+        Sng.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {mediaPlayer=new MediaPlayer();
+                ContentResolver contentResolver=getContentResolver();
+                Uri songUri= MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
+                Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
+                if (songCursor!=null && songCursor.moveToFirst())
+                {
+                    int songTitle=songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+                    do {
+//                        String songPath=songUri.getPath();
+//                        try {
+//                            mediaPlayer.setDataSource(songPath);
+//                            mediaPlayer.start();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+                        String currentTitle=songCursor.getString(songTitle);
+                        Log.d("hfgjg", currentTitle);
+                    } while (songCursor.moveToNext());
+                }
 
-        ContentResolver contentResolver=getContentResolver();
-        Uri songUri= MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
-        Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
-        if (songCursor!=null && songCursor.moveToFirst())
-        {
-            do {
-                String songPath=
             }
-        }
+        });
 
-        mediaPlayer=new MediaPlayer();
-        mediaPlayer.setDataSource();
+
+
+
 
         ServiceOnButton.setOnClickListener(new View.OnClickListener()
         {
@@ -148,6 +165,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void GetFiles(String DirectoryPath) {
+        Log.d ("hfgjg", DirectoryPath);
         File f = new File(DirectoryPath);
         f.mkdirs();
         File[] files = f.listFiles();
@@ -161,5 +179,5 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    String path = android.os.Environment.getRootDirectory().getAbsolutePath();
+    String path = android.os.Environment.;
 }
