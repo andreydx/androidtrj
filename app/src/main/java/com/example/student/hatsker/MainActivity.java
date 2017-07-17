@@ -1,8 +1,10 @@
 package com.example.student.hatsker;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +14,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,14 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 {
                     Toast.makeText(this_, "Receiver is already on", duration).show();
                 }
-
-
-
             }
         });
-
-
-
 
         Button ServiceOffButton=(Button)findViewById(R.id.offService);
 
@@ -70,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this_, "Receiver is already off", duration).show();
             }
         });
+
+
 
         Button getCon = (Button)findViewById(R.id.getContacts);
 
@@ -90,5 +96,64 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        Button getFile = (Button) findViewById(R.id.getFile);
+
+        getFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] {ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+                    startManagingCursor(cursor);
+
+                    if (cursor.getCount() > 0)
+                    {
+                        while (cursor.moveToNext())
+                        {
+
+                            /** Getting Cache Directory */
+                            File tempFile;
+                            File cDir = getBaseContext().getCacheDir();
+
+                            /* Makes a textfile in the absolute cache directory  */
+                            tempFile = new File(cDir.getPath() + "/" + "textFile.txt") ;
+
+                            /* Writing into the created textfile */
+                            FileWriter writer=null;
+                            try {
+                                writer = new FileWriter(tempFile);
+                                writer.write(" ID "+cursor.getString(0)+" NAME "+cursor.getString(1)+" PHONE "+cursor.getString(2));
+                                writer.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+
+                            String strLine="";
+                            StringBuilder text = new StringBuilder();
+                            try {
+                                FileReader fReader = new FileReader(tempFile);
+                                BufferedReader bReader = new BufferedReader(fReader);
+
+                                while( (strLine=bReader.readLine()) != null  ){
+                                    Log.i("DATA", strLine);
+                                }
+                            } catch (FileNotFoundException e) {
+                                e.printStackTrace();
+                            }catch(IOException e){
+                                e.printStackTrace();
+                            }
+
+
+                            //Log.i("DATA"," ID "+cursor.getString(0)+" NAME "+cursor.getString(1)+" PHONE "+cursor.getString(2));
+                        }
+                    }
+                }
+
+        });
+
+
+
+
     }
+
 }
