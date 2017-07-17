@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button getCon = (Button)findViewById(R.id.getContacts);
 
+
         getCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
