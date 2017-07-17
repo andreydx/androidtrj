@@ -16,6 +16,7 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
 
 
+
     boolean isRegistered = false;
     int duration = Toast.LENGTH_SHORT;
 
