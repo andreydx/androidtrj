@@ -213,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
             {
                 String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
                 Log.d("App № " + Integer.toString(i), appName);
+
             }
         }
     }
