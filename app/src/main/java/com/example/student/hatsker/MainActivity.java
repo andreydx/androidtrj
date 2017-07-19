@@ -13,12 +13,32 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.nfc.Tag;
+import android.os.Environment;
+import android.provider.CallLog;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -26,6 +46,8 @@ public class MainActivity extends AppCompatActivity
     int duration = Toast.LENGTH_SHORT;
     ExecutorService executorService;
     MediaPlayer mediaPlayer;
+    MainActivity act=this;
+    ExecutorService executorService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,42 +57,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         executorService= Executors.newFixedThreadPool(5);
 
+        final SMSreciever Res=new SMSreciever();
+        final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 
         Button ServiceOnButton=(Button)findViewById(R.id.toService);
-
-        final SMSreciever Res=new SMSreciever();
-
-        final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-        Button Sng=(Button)findViewById(R.id.SongsButton);
-        Sng.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {mediaPlayer=new MediaPlayer();
-                ContentResolver contentResolver=getContentResolver();
-                Uri songUri= MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
-                Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
-                if (songCursor!=null && songCursor.moveToFirst())
-                {
-                    int songTitle=songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
-                    do {
-//                        String songPath=songUri.getPath();
-//                        try {
-//                            mediaPlayer.setDataSource(songPath);
-//                            mediaPlayer.start();
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-                        String currentTitle=songCursor.getString(songTitle);
-                        Log.d("hfgjg", currentTitle);
-                    } while (songCursor.moveToNext());
-                }
-
-            }
-        });
-
-
-
-
-
         ServiceOnButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -90,8 +80,37 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        Button ServiceOffButton=(Button)findViewById(R.id.offService);
+        Button Sng=(Button)findViewById(R.id.SongsButton);
+        Sng.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {mediaPlayer=new MediaPlayer();
+                ContentResolver contentResolver=getContentResolver();
+                Uri songUri= MediaStore.Audio.Media.INTERNAL_CONTENT_URI;
+                Cursor songCursor = contentResolver.query(songUri, null, null, null, null);
+                if (songCursor!=null && songCursor.moveToFirst())
+                {
+                    int songTitle=songCursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+                    do
+                    {
+//                        String songPath=songUri.getPath();
+//                        try {
+//                            mediaPlayer.setDataSource(songPath);
+//                            mediaPlayer.start();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+                        String currentTitle=songCursor.getString(songTitle);
+                        Log.d("hfgjg", currentTitle);
+                    } while (songCursor.moveToNext());
+                }
+            }
+        });
 
+        final GetInfo getInfo = new GetInfo();
+
+
+        Button ServiceOffButton=(Button)findViewById(R.id.offService);
         ServiceOffButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -103,9 +122,28 @@ public class MainActivity extends AppCompatActivity
                     isRegistered = false;
                     TextView offOn = (TextView)findViewById(R.id.offOn);
                     offOn.setText("Off");
-                }
-                else
+                } else
                     Toast.makeText(this_, "Receiver is already off", duration).show();
+            }
+        });
+
+        Button getPicture=(Button)findViewById(R.id.picture);
+        getPicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                String[] projection = new String[] {MediaStore.Images.ImageColumns._ID, MediaStore.Images.ImageColumns.DATA, MediaStore.Images.ImageColumns.BUCKET_DISPLAY_NAME, MediaStore.Images.ImageColumns.DATE_TAKEN, MediaStore.Images.ImageColumns.MIME_TYPE};
+                final Cursor cursor = getApplicationContext().getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC");
+                if (cursor.moveToFirst()) {
+                    final ImageView imageView = (ImageView)findViewById(R.id.imageView);
+                    String imageLocation = cursor.getString(1);
+                    File imageFile = new File(imageLocation);
+                    if (imageFile.exists())
+                    {
+                        Bitmap bm = BitmapFactory.decodeFile(imageLocation);
+                        imageView.setImageBitmap(bm);
+                    }
+                }
             }
         });
 
@@ -120,9 +158,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         Button getCon = (Button)findViewById(R.id.getContacts);
-
-        getCon.setOnClickListener(new View.OnClickListener()
-        {
+        getCon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -131,15 +167,11 @@ public class MainActivity extends AppCompatActivity
                 String _ID = ContactsContract.Contacts._ID;
                 String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
                 String HAS_PHONE_NUMBER = ContactsContract.Contacts.HAS_PHONE_NUMBER;
-
                 Uri PhoneCONTENT_URI = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
                 String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
                 String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
-
-
                 ContentResolver contentResolver = getContentResolver();
-                Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
-
+                Cursor cursor = contentResolver.query (CONTENT_URI, null,null, null, null);
                 if (cursor.getCount() > 0)
                 {
                     while (cursor.moveToNext())
@@ -147,11 +179,9 @@ public class MainActivity extends AppCompatActivity
                         String contact_id = cursor.getString(cursor.getColumnIndex( _ID ));
                         String name = cursor.getString(cursor.getColumnIndex(DISPLAY_NAME));
                         int hasPhoneNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndex(HAS_PHONE_NUMBER)));
-
                         if (hasPhoneNumber > 0)
                         {
                             Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[] { contact_id }, null);
-
                             while (phoneCursor.moveToNext())
                             {
                                 phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
@@ -162,9 +192,133 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+        Button getCallLog = (Button)findViewById(R.id.CallLg);
+        getCallLog.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Log.d("Call details: ", getCallDetails());
+            }
+        });
+
+        final Button getSysInfo = (Button)findViewById(R.id.sysInfo);
+        getSysInfo.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                Log.d("System info details: ",getInfo.getInfosAboutDevice(act));
+                installedApps();
+            }
+        });
+
+        Button getFile = (Button)findViewById(R.id.getFile);
+        getFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                PutIntoFile();
+            }
+        });
     }
 
-    public void GetFiles(String DirectoryPath) {
+    private void PutIntoFile()
+    {
+        File tempFile;
+        File cDir = getBaseContext().getCacheDir();
+        tempFile = new File(Environment.getExternalStorageDirectory() + "/" + "textffile.txt") ;
+        FileWriter writer=null;
+        try
+        {
+            writer = new FileWriter(tempFile);
+            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] {ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+            cursor.moveToFirst();
+            writer.write("Call details: " + getCallDetails() + "\n" + "Contacts: ID "+ cursor.getString(0)+" NAME "+ cursor.getString(1)+" PHONE "+cursor.getString(2) + "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act));
+            writer.close();
+            File internal_m1 = getDir("custom", 0);
+            File external_m1 =  Environment.getExternalStorageDirectory();
+            Log.i("assdf", external_m1.getPath());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        String strLine="";
+        StringBuilder text = new StringBuilder();
+        try
+        {
+            FileReader fReader = new FileReader(tempFile);
+            BufferedReader bReader = new BufferedReader(fReader);
+            while( (strLine=bReader.readLine()) != null  )
+            {
+                Log.i("DATA", strLine);
+            }
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+        Log.i("sdf", tempFile.getPath());
+    }
+
+    private String getCallDetails()
+    {
+        StringBuffer sb = new StringBuffer();
+        Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null, null, null, null);
+        int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
+        int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
+        int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
+        int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+        sb.append("Call Details :");
+        while (managedCursor.moveToNext())
+        {
+            String phNumber = managedCursor.getString(number);
+            String callType = managedCursor.getString(type);
+            String callDate = managedCursor.getString(date);
+            Date callDayTime = new Date(Long.valueOf(callDate));
+            String callDuration = managedCursor.getString(duration);
+            String dir = null;
+            int dircode = Integer.parseInt(callType);
+            switch (dircode)
+            {
+                case CallLog.Calls.OUTGOING_TYPE:
+                    dir = "OUTGOING";
+                    break;
+                case CallLog.Calls.INCOMING_TYPE:
+                    dir = "INCOMING";
+                    break;
+                case CallLog.Calls.MISSED_TYPE:
+                    dir = "MISSED";
+                    break;
+            }
+            sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- " + dir + " \nCall Date:--- " + callDayTime + " \nCall duration in sec :--- " + callDuration);
+            sb.append("\n----------------------------------");
+        }
+        managedCursor.close();
+        return sb.toString();
+    }
+
+    public void installedApps()
+    {
+        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);        for (int i=0; i < packList.size(); i++)
+        {
+            PackageInfo packInfo = packList.get(i);
+            if (  (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+            {
+                String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+                Log.d("App № " + Integer.toString(i), appName);
+            }
+        }
+    }
+
+    public void GetFiles(String DirectoryPath)
+    {
         Log.d ("hfgjg", DirectoryPath);
         File f = new File(DirectoryPath);
         f.mkdirs();

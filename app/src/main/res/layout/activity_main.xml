@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:background="@color/blue"
     tools:context="com.example.student.hatsker.MainActivity">
 
     <Button
@@ -13,8 +13,10 @@
         android:layout_height="wrap_content"
         android:text="on"
         android:onClick="ToServButt"
-        android:layout_above="@+id/offService"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp" />
 
     <Button
         android:id="@+id/offService"
@@ -22,8 +24,9 @@
         android:layout_height="wrap_content"
         android:text="off"
         android:onClick="OffServButt"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_below="@+id/toService"
+        android:layout_alignStart="@+id/toService"
+        android:layout_marginTop="14dp" />
 
 
     <TextView
@@ -34,7 +37,8 @@
         android:text="Off"
         android:textSize="100dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="74dp" />
 
     <Button
         android:id="@+id/getContacts"
@@ -43,6 +47,51 @@
         android:layout_marginTop="69dp"
         android:text="Get all contacts"
         android:layout_below="@+id/offService"
+        android:layout_alignStart="@+id/offService"
+        android:layout_marginTop="68dp" />
+
+    <Button
+        android:id="@+id/CallLg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get call log"
+        android:layout_below="@+id/getContacts"
+        android:layout_alignEnd="@+id/picture"
+        android:layout_marginEnd="10dp" />
+
+    <Button
+        android:id="@+id/sysInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get all Info"
+        android:layout_below="@+id/CallLg"
+        android:layout_alignStart="@+id/CallLg" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_delete"
+        android:layout_alignTop="@+id/picture"
+        android:layout_alignEnd="@+id/offOn" />
+
+    <Button
+        android:id="@+id/picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get Last Picture"
+        android:layout_below="@+id/sysInfo"
+        android:layout_alignStart="@+id/toService" />
+
+    <Button
+        android:id="@+id/getFile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Get File"
+        android:layout_below="@+id/picture"
+        android:layout_alignStart="@+id/toService" />
+
+
         android:layout_centerHorizontal="true" />
 
     <Button
