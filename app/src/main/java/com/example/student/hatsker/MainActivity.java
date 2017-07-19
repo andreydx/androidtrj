@@ -13,18 +13,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.nfc.Tag;
 import android.os.Environment;
 import android.provider.CallLog;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 import java.io.File;
@@ -35,16 +29,13 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity
 {
     boolean isRegistered = false;
     int duration = Toast.LENGTH_SHORT;
-    ExecutorService executorService;
     MediaPlayer mediaPlayer;
     MainActivity act=this;
     ExecutorService executorService;
@@ -306,7 +297,8 @@ public class MainActivity extends AppCompatActivity
 
     public void installedApps()
     {
-        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);        for (int i=0; i < packList.size(); i++)
+        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
+        for (int i=0; i < packList.size(); i++)
         {
             PackageInfo packInfo = packList.get(i);
             if (  (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
@@ -333,5 +325,5 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    String path = android.os.Environment.;
+    String path = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 }

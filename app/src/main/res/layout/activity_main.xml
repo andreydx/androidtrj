@@ -47,9 +47,7 @@
         android:layout_marginTop="69dp"
         android:text="Get all contacts"
         android:layout_below="@+id/offService"
-        android:layout_alignStart="@+id/offService"
-        android:layout_marginTop="68dp" />
-
+        android:layout_alignStart="@+id/offService"/>
     <Button
         android:id="@+id/CallLg"
         android:layout_width="wrap_content"
@@ -90,9 +88,6 @@
         android:text="Get File"
         android:layout_below="@+id/picture"
         android:layout_alignStart="@+id/toService" />
-
-
-        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/FileGetter"
