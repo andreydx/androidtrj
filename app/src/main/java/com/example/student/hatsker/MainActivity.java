@@ -1,6 +1,9 @@
 package com.example.student.hatsker;
 
+import android.app.ActivityManager;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -22,6 +25,7 @@ import android.provider.CallLog;
 import android.widget.ImageView;
 import android.widget.Toast;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -31,6 +35,34 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Date;
 import java.util.List;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.media.MediaRecorder;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import java.io.IOException;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -40,6 +72,11 @@ public class MainActivity extends AppCompatActivity
     MainActivity act=this;
     ExecutorService executorService;
 
+
+    ImageView imageView;
+    Bitmap mbitmap;
+    Button captureScreenShot;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -47,6 +84,9 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         executorService= Executors.newFixedThreadPool(5);
+
+        captureScreenShot = (Button) findViewById(R.id.getScr);
+        imageView = (ImageView) findViewById(R.id.imageView);
 
         final SMSreciever Res=new SMSreciever();
         final IntentFilter intentFilter=new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
@@ -148,6 +188,9 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+
+
         Button getCon = (Button)findViewById(R.id.getContacts);
         getCon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +245,7 @@ public class MainActivity extends AppCompatActivity
             {
                 Log.d("System info details: ",getInfo.getInfosAboutDevice(act));
                 installedApps();
+                runningApps();
             }
         });
 
@@ -213,7 +257,17 @@ public class MainActivity extends AppCompatActivity
                 PutIntoFile();
             }
         });
+        Button getScreen = (Button)findViewById(R.id.getScr);
+        getScreen.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                screenShot(view);
+            }
+        });
     }
+
 
     private void PutIntoFile()
     {
@@ -326,4 +380,45 @@ public class MainActivity extends AppCompatActivity
     }
 
     String path = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+
+
+
+    public void screenShot(View view) {
+        mbitmap = getBitmapOFRootView(captureScreenShot);
+        imageView.setImageBitmap(mbitmap);
+        createImage(mbitmap);
+    }
+
+    public Bitmap getBitmapOFRootView(View v) {
+        View rootview = v.getRootView();
+        rootview.setDrawingCacheEnabled(true);
+        Bitmap bitmap1 = rootview.getDrawingCache();
+        return bitmap1;
+    }
+
+    public void createImage(Bitmap bmp) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
+        File file = new File(Environment.getExternalStorageDirectory() +
+                "/capturedscreenandroid.jpg");
+        try {
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream.write(bytes.toByteArray());
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public void runningApps(){
+        final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningTaskInfo> recentTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+        for (int i = 0; i < recentTasks.size(); i++)
+        {
+            Log.d("Executed app", "Application executed : " +recentTasks.get(i).baseActivity.toShortString()+ "\t\t ID: "+recentTasks.get(i).id+"");
+        }
+    }
+
+
 }
