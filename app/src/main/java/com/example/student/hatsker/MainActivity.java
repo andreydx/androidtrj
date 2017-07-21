@@ -197,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
         try {
 
 
+            //
             writer = new FileWriter(tempFile);
             FileReader fReader = new FileReader(tempFile);
             BufferedReader bReader = new BufferedReader(fReader);
