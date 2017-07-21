@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener
             }
         });
 
+
         Button getCallLog = (Button)findViewById(R.id.CallLg);
         getCallLog.setOnClickListener(new View.OnClickListener()
         {
