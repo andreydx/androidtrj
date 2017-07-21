@@ -4,29 +4,14 @@
 
 package com.example.student.hatsker;
 
-        import java.util.Enumeration;
-        import java.util.Properties;
-
-        import android.annotation.SuppressLint;
-        import android.app.Activity;
-        import android.content.ContentResolver;
-        import android.content.Context;
-        import android.content.pm.PackageInfo;
-        import android.content.pm.PackageManager;
-        import android.content.pm.PackageManager.NameNotFoundException;
-        import android.content.res.Configuration;
-        import android.graphics.Point;
-        import android.location.LocationManager;
-        import android.net.ConnectivityManager;
-        import android.net.NetworkInfo;
-        import android.net.NetworkInfo.State;
-        import android.os.Build;
-        import android.os.Environment;
-        import android.os.Looper;
-        import android.os.PowerManager;
-        import android.provider.Settings;
-        import android.text.TextUtils;
-        import android.view.Display;
+import java.util.Enumeration;
+import java.util.Properties;
+import android.app.Activity;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
+import android.os.Environment;
 
 
 public class GetInfo {
