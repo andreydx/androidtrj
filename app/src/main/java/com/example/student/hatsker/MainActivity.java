@@ -43,6 +43,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.telephony.gsm.GsmCellLocation;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements LocationListener
 {
@@ -231,8 +237,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener
 
 
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-        Button getGPS=(Button)findViewById(R.id.GetGpsAndGsm);
-        getGPS.setOnClickListener(new View.OnClickListener() {
+        Button getGPSandGSM=(Button)findViewById(R.id.GetGpsAndGsm);
+        getGPSandGSM.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -253,6 +259,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener
                     else
                         Toast.makeText(getBaseContext(), "No Location Provider Found Check Your Code", Toast.LENGTH_SHORT).show();
                 }
+
+                TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                GsmCellLocation cellLocation = (GsmCellLocation)telephonyManager.getCellLocation();
+
+                int cid = cellLocation.getCid();
+                int lac = cellLocation.getLac();
+
+                Log.i("GSM.location",cellLocation.toString());
+                Log.i("GSM.Cell ID",String.valueOf(cid));
+                Log.i("GSM.Location area code",String.valueOf(lac));
             }
         });
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
