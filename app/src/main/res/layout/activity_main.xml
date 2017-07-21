@@ -63,7 +63,7 @@
         android:layout_height="wrap_content"
         android:text="Get all Info"
         android:layout_below="@+id/CallLg"
-        android:layout_alignStart="@+id/CallLg" />
+        android:layout_toEndOf="@+id/FileGetter" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -93,11 +93,9 @@
         android:id="@+id/FileGetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/getContacts"
-        android:layout_alignStart="@+id/getContacts"
-        android:layout_below="@+id/getContacts"
-        android:layout_marginTop="13dp"
-        android:text="Get Files" />
+        android:text="Get Files"
+        android:layout_above="@+id/sysInfo"
+        android:layout_toEndOf="@+id/getContacts" />
 
     <Button
         android:id="@+id/SongsButton"
@@ -108,5 +106,13 @@
         android:layout_below="@+id/offService"
         android:layout_marginTop="17dp"
         android:text="Get Songs" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/goWifiActivity"
+        android:text="go to wifi activity"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/CallLg" />
 
 </RelativeLayout>
