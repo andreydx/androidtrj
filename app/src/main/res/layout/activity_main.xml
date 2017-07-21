@@ -82,5 +82,14 @@
         android:layout_below="@+id/sysInfo"
         android:layout_alignStart="@+id/toService" />
 
+    <Button
+        android:id="@+id/getScr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/sysInfo"
+        android:layout_below="@+id/picture"
+        android:layout_marginTop="13dp"
+        android:text="Get screen" />
+
 
 </RelativeLayout>
