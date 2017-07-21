@@ -31,14 +31,29 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Date;
 import java.util.List;
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements LocationListener
 {
     boolean isRegistered = false;
     int duration = Toast.LENGTH_SHORT;
     MediaPlayer mediaPlayer;
     MainActivity act=this;
     ExecutorService executorService;
+
+    LocationManager locationManager;
+    String mprovider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -213,6 +228,34 @@ public class MainActivity extends AppCompatActivity
                 PutIntoFile();
             }
         });
+
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        Button getGPS=(Button)findViewById(R.id.GetGpsAndGsm);
+        getGPS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                Criteria criteria = new Criteria();
+
+                mprovider = locationManager.getBestProvider(criteria, false);
+
+                if (mprovider != null && !mprovider.equals("")) {
+                    if (ActivityCompat.checkSelfPermission(this_, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this_, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    Location location = locationManager.getLastKnownLocation(mprovider);
+                    locationManager.requestLocationUpdates(mprovider, 15000, 1, this_);
+
+                    if (location != null)
+                        onLocationChanged(location);
+                    else
+                        Toast.makeText(getBaseContext(), "No Location Provider Found Check Your Code", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     }
 
     private void PutIntoFile()
@@ -326,4 +369,26 @@ public class MainActivity extends AppCompatActivity
     }
 
     String path = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
+
+
+    @Override
+    public void onLocationChanged(Location location) {
+        Log.i("GPS.longitude",Double.toString(location.getLongitude()));
+        Log.i("GPS.latitude",Double.toString(location.getLatitude()));
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }

@@ -109,4 +109,12 @@
         android:layout_marginTop="17dp"
         android:text="Get Songs" />
 
+    <Button
+        android:id="@+id/GetGpsAndGsm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/getFile"
+        android:layout_below="@+id/getFile"
+        android:text="Get GPS/GSM" />
+
 </RelativeLayout>
