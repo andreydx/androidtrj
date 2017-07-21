@@ -13,12 +13,11 @@ import android.widget.Toast;
  * Created by student on 05.07.17.
  */
 
-public class SMSreciever extends BroadcastReceiver
-{
+public class SMSreciever extends BroadcastReceiver {
     final SmsManager sms = SmsManager.getDefault();
+
     @Override
-    public void onReceive (Context context, Intent intent)
-    {
+    public void onReceive(Context context, Intent intent) {
         final Bundle bundle = intent.getExtras();
 
         Log.d("bubug", "ama one of them");
@@ -37,20 +36,19 @@ public class SMSreciever extends BroadcastReceiver
                     String senderNum = phoneNumber;
                     String message = currentMessage.getDisplayMessageBody();
 
-                    Log.i("SmsReceiver", "senderNum: "+ senderNum + "; message: " + message);
+                    Log.d("SmsReceiver", "senderNum: " + senderNum + "; message: " + message);
 
 
                     // Show alert
                     int duration = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(context, "senderNum: "+ senderNum + ", message: " + message, duration);
+                    Toast toast = Toast.makeText(context, "senderNum: " + senderNum + ", message: " + message, duration);
                     toast.show();
+                }
 
-                } // end for loop
-            } // bundle is null
 
+            }
         } catch (Exception e) {
-            Log.e("SmsReceiver", "Exception smsReceiver" +e);
-
+            Log.d("SmsReceiver", "Exception smsReceiver" + e);
         }
     }
 }

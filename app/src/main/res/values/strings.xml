@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Hatsker</string>
-    <color name="yellow">#CCCC00</color>
-    <color name="green">#CCFFCC</color>
+    <color name="yellow">#efef05</color>
+    <color name="green">#14d914</color>
 </resources>
