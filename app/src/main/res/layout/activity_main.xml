@@ -132,5 +132,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="go to new act"
+        android:id="@+id/goTo"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/imageView"
+        android:layout_marginEnd="14dp" />
+
 
 </RelativeLayout>

