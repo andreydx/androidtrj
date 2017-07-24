@@ -36,7 +36,7 @@ public class WifiStatusActivity extends AppCompatActivity {
         final Button getNets = (Button)findViewById(R.id.getNetworks);
 
         final WifiSignalReceiver wifiSignalReceiver = new WifiSignalReceiver();
-        final IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
+        final IntentFilter intentFilter = new IntentFilter("android.net.wifi.WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION");
 
         onWifiRec.setOnClickListener(new View.OnClickListener() {
             @Override
