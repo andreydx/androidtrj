@@ -71,7 +71,7 @@
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_delete"
         android:layout_alignTop="@+id/picture"
-        android:layout_alignEnd="@+id/offOn" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/picture"
@@ -93,11 +93,9 @@
         android:id="@+id/FileGetter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/getContacts"
-        android:layout_alignStart="@+id/getContacts"
-        android:layout_below="@+id/getContacts"
-        android:layout_marginTop="13dp"
-        android:text="Get Files" />
+        android:text="Get Files"
+        android:layout_below="@+id/offService"
+        android:layout_alignEnd="@+id/offOn" />
 
     <Button
         android:id="@+id/SongsButton"
@@ -108,6 +106,15 @@
         android:layout_below="@+id/offService"
         android:layout_marginTop="17dp"
         android:text="Get Songs" />
+
+    <Button
+        android:id="@+id/getScr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/FileGetter"
+        android:layout_alignTop="@+id/getContacts"
+        android:text="Get screen" />
+
 
     <Button
         android:id="@+id/GetGpsAndGsm"
