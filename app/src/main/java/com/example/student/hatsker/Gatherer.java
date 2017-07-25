@@ -5,6 +5,6 @@ import android.content.Context;
 
 public interface Gatherer {
 
-    public String getInfo(Context context);
+    String getInfo(Context context);
 
 }

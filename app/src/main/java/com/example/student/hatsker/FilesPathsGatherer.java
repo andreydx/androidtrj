@@ -12,11 +12,7 @@ public class FilesPathsGatherer implements Gatherer {
     String path = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
 
-    FilesPathsGatherer(Context context)
-    {
-        GetFiles(path);
-        getInfo(context);
-    }
+
 
     @Override
     public String getInfo(Context context) {
@@ -32,7 +28,9 @@ public class FilesPathsGatherer implements Gatherer {
         File[] files = f.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
-                stringBuilder.append(files[i].getAbsolutePath());
+
+                stringBuilder.append(files[i].getAbsolutePath() + "\n");
+
                 if (files[i].isDirectory())
                     GetFiles(files[i].getAbsolutePath());
             }

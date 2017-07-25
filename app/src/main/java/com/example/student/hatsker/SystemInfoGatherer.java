@@ -17,10 +17,7 @@ import java.util.Properties;
 
 public class SystemInfoGatherer implements Gatherer {
 
-    SystemInfoGatherer(Context context)
-    {
-        getInfo(context);
-    }
+
 
     @Override
     public String getInfo(Context context) {

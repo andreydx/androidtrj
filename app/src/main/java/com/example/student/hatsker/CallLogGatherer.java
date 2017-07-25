@@ -16,16 +16,14 @@ import java.util.Date;
 
 public class CallLogGatherer implements Gatherer {
 
-    CallLogGatherer(Context context)
-    {
-        getInfo(context);
-    }
 
     @Override
     public String getInfo(Context context) {
         StringBuffer stringBuffer = new StringBuffer();
-        if(context.checkPermission(Manifest.permission.READ_CALL_LOG, 1, 1)==
+
+        if(context.getApplicationContext().checkPermission(Manifest.permission.READ_CALL_LOG, 1, 1)==
                 PackageManager.PERMISSION_GRANTED) {
+
             Cursor cursor = context.getContentResolver().query
                     (CallLog.Calls.CONTENT_URI, null, null, null, null);
             int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);

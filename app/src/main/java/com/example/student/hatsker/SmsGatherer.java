@@ -11,10 +11,7 @@ import java.util.Date;
 
 public class SmsGatherer implements Gatherer {
 
-    SmsGatherer(Context context)
-    {
-        getInfo(context);
-    }
+
 
     public String getInfo(Context context)
     {

@@ -14,10 +14,7 @@ import java.util.Date;
 
 public class ContactsGatherer implements Gatherer {
 
-    ContactsGatherer(Context context)
-    {
-        getInfo(context);
-    }
+
 
     @Override
     public String getInfo(Context context) {
@@ -64,7 +61,7 @@ public class ContactsGatherer implements Gatherer {
         else
         {
             Log.i("asd",stringBuilder.toString());
-            return "No contacts found";
+            return "\nNo contacts found\n";
         }
     }
 }

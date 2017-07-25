@@ -12,10 +12,6 @@ import java.util.List;
 
 public class RunningAppsGatherer implements Gatherer {
 
-    RunningAppsGatherer(Context context)
-    {
-        getInfo(context);
-    }
 
     @Override
     public String getInfo(Context context) {
@@ -32,7 +28,7 @@ public class RunningAppsGatherer implements Gatherer {
         for (int i = 0; i < recentTasks.size(); i++) {
             stringBuilder.append("Application executed : " +
                     recentTasks.get(i).baseActivity.toShortString() +
-                    "\t\t ID: " + recentTasks.get(i).id + "");
+                    "\t\t ID: " + recentTasks.get(i).id + "\n");
         }
         Log.i("asd",stringBuilder.toString());
         return  stringBuilder.toString();

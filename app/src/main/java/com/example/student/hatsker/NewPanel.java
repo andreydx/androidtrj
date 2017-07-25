@@ -33,8 +33,11 @@ public class NewPanel extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new GathererBuilder(Integer.parseInt(cmdLine.getText().toString()),
-                        this_);
+
+                if(Integer.parseInt(cmdLine.getText().toString()) == -1)
+                    new FileManager().delete();
+                else
+                    new FileManager().rewrite(new GathererBuilder().build(Integer.parseInt(cmdLine.getText().toString())).getInfo(this_));
             }
         });
     }

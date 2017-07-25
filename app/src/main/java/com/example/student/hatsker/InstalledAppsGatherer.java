@@ -14,10 +14,7 @@ import java.util.List;
 public class InstalledAppsGatherer implements Gatherer {
 
 
-    InstalledAppsGatherer(Context context)
-    {
-        getInfo(context);
-    }
+
 
     @Override
     public String getInfo(Context context) {
