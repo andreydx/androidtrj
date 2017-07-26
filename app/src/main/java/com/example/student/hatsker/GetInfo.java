@@ -29,11 +29,6 @@ package com.example.student.hatsker;
         import android.view.Display;
 
 
-
-////////////////////////////////////////////////////////////* REFACTORED *////////////////////////////////////////////////////////////////////////////
-
-
-
 public class GetInfo {
     public static String getInfosAboutDevice(Activity a) {
         String s = "";

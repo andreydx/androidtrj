@@ -305,6 +305,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 }
             }
         });
+
+        final Button getAccount = (Button) findViewById(R.id.getAccount);
+        getAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("MailId",GetAccount.getMailId(this_));
+                Log.i("Username",GetAccount.getUsername(this_));
+
+            }
+        });
+
         //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     }
 
