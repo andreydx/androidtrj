@@ -12,11 +12,19 @@ import java.util.List;
  * Created by student on 26.07.17.
  */
 
-public class GetAccount {
-    public static String getMailId(MainActivity this_) {
+public class AccountInfoGatherer implements Gatherer {
+
+    private final Context context;
+
+    AccountInfoGatherer(Context context)
+    {
+        this.context = context;
+    }
+
+    public String getInfo() {
         String strGmail = null;
         try {
-            Account[] accounts = AccountManager.get(this_).getAccounts();
+            Account[] accounts = AccountManager.get(context).getAccounts();
             Log.e("PIKLOG", "Size: " + accounts.length);
             for (Account account : accounts) {
 
@@ -32,7 +40,7 @@ public class GetAccount {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            strGmail = null;
+            strGmail = "no account found";
         }
 
         return strGmail;
@@ -46,9 +54,8 @@ public class GetAccount {
             possibleEmails = new LinkedList<>();
 
             for (Account account : accounts) {
-                // TODO: Check possibleEmail against an email regex or treat
-                // account.name as an email address only for certain account.type
-                // values.
+
+
                 possibleEmails.add(account.name);
             }
         } catch (Exception e) {
