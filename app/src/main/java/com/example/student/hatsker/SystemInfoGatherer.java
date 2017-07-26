@@ -17,10 +17,15 @@ import java.util.Properties;
 
 public class SystemInfoGatherer implements Gatherer {
 
+    private Context context;
 
+    SystemInfoGatherer(Context context)
+    {
+        this.context = context;
+    }
 
     @Override
-    public String getInfo(Context context) {
+    public String getInfo() {
         StringBuilder stringBuilder = new StringBuilder();
 
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

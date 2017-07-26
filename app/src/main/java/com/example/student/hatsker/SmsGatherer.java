@@ -11,9 +11,14 @@ import java.util.Date;
 
 public class SmsGatherer implements Gatherer {
 
+    private Context context;
 
+    SmsGatherer(Context context)
+    {
+        this.context = context;
+    }
 
-    public String getInfo(Context context)
+    public String getInfo()
     {
 
         Cursor c = context.getContentResolver().query(Telephony.Sms.CONTENT_URI, null, null, null, null);

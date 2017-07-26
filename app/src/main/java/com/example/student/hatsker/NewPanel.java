@@ -34,10 +34,12 @@ public class NewPanel extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(Integer.parseInt(cmdLine.getText().toString()) == -1)
-                    new FileManager().delete();
-                else
-                    new FileManager().rewrite(new GathererBuilder().build(Integer.parseInt(cmdLine.getText().toString())).getInfo(this_));
+//                if(Integer.parseInt(cmdLine.getText().toString()) == -1)
+//                    new FileManager().delete();
+//                else
+//                    new FileManager().rewrite(new GathererBuilder().build(cmdLine.getText().toString()).getInfo(this_));
+
+                new DecisionMaker().makeDecision(this_, cmdLine.getText().toString());
             }
         });
     }

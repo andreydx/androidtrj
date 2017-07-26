@@ -14,10 +14,15 @@ import java.util.Date;
 
 public class ContactsGatherer implements Gatherer {
 
+    private Context context;
 
+    ContactsGatherer(Context context)
+    {
+        this.context = context;
+    }
 
     @Override
-    public String getInfo(Context context) {
+    public String getInfo() {
 
         Cursor c = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 new String[]{ContactsContract.CommonDataKinds.Phone._ID,

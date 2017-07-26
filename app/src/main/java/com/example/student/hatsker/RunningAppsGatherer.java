@@ -12,9 +12,15 @@ import java.util.List;
 
 public class RunningAppsGatherer implements Gatherer {
 
+    private Context context;
+
+    RunningAppsGatherer(Context context)
+    {
+        this.context = context;
+    }
 
     @Override
-    public String getInfo(Context context) {
+    public String getInfo() {
 
         StringBuilder stringBuilder = new StringBuilder();
 
