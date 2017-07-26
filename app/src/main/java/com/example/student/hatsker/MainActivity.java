@@ -1,5 +1,6 @@
 package com.example.student.hatsker;
 
+import android.accounts.AccountManager;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -278,8 +279,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         getAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
             }
         });
 
