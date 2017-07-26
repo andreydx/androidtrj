@@ -1,6 +1,7 @@
 package com.example.student.hatsker;
 
 import android.content.Context;
+import android.util.Log;
 
 
 public class GathererBuilder {
@@ -16,6 +17,9 @@ public class GathererBuilder {
 
     public Gatherer build(String cmd, Context context)
     {
+
+        Log.i("Builder", cmd);
+
         switch (cmd)
         {
 

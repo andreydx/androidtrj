@@ -19,7 +19,15 @@ public class ReceiverManager {
     {
         smsReciever = new SMSreciever();
 
-        switch(cmd)
+        String cmdHere="";
+        for (int i = 0; i < cmd.length(); i++) {
+            if (cmd.charAt(i) == ' ')
+            {
+                cmdHere = cmd.substring(0, i);
+                break;
+            }
+        }
+        switch(cmdHere)
         {
             case REGISTER: registerReceiver(smsReciever, context, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
                 break;
