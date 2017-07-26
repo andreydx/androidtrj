@@ -12,10 +12,16 @@ public class FilesPathsGatherer implements Gatherer {
     String path = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
 
 
+    private Context context;
+
+    FilesPathsGatherer(Context context)
+    {
+        this.context = context;
+    }
 
 
     @Override
-    public String getInfo(Context context) {
+    public String getInfo() {
 
         Log.i("asd",stringBuilder.toString());
         return stringBuilder.toString();

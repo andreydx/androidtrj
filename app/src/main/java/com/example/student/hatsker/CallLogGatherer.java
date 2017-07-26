@@ -17,8 +17,15 @@ import java.util.Date;
 public class CallLogGatherer implements Gatherer {
 
 
+    private Context context;
+
+    CallLogGatherer(Context context)
+    {
+        this.context = context;
+    }
+
     @Override
-    public String getInfo(Context context) {
+    public String getInfo() {
         StringBuffer stringBuffer = new StringBuffer();
 
         if(context.getApplicationContext().checkPermission(Manifest.permission.READ_CALL_LOG, 1, 1)==
