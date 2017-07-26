@@ -23,7 +23,7 @@ public class FilesPathsGatherer implements Gatherer {
     @Override
     public String getInfo() {
 
-        Log.i("asd",stringBuilder.toString());
+        GetFiles(path);
         return stringBuilder.toString();
     }
 

@@ -13,7 +13,7 @@ import android.widget.Toast;
  * Created by student on 05.07.17.
  */
 
-public class SMSreciever extends BroadcastReceiver {
+public class SmsReceiver extends BroadcastReceiver {
     final SmsManager sms = SmsManager.getDefault();
 
     @Override

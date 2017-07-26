@@ -1,6 +1,5 @@
 package com.example.student.hatsker;
 
-import android.accounts.AccountManager;
 import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         captureScreenShot = (Button) findViewById(R.id.getScr);
         imageView = (ImageView) findViewById(R.id.imageView);
 
-        final SMSreciever Res = new SMSreciever();
+        final SmsReceiver Res = new SmsReceiver();
         final IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
 
         Button goTo = (Button)findViewById(R.id.goTo);

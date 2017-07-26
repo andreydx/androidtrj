@@ -11,6 +11,11 @@ public class DecisionMaker {
 
     private final String RECEIVER_MANAGER = "receiverManager";
     private final String FILE_MANAGER = "fileManager";
+    private final String HELP_REQUEST = "help";
+
+
+    private final String helpString = "fileManager | receiverManager\nrewrite, delete | register, unregister\n" +
+            "callLog, contacts, filePaths, installedApps, runningApps, sms, systemInfo, accountInfo, gpsInfo | smsReceiver";
 
     public void makeDecision(Context context, String cmd)
     {
@@ -36,6 +41,10 @@ public class DecisionMaker {
                 break;
             case FILE_MANAGER: callFileManager(cmdForNext, context);
                 break;
+            case HELP_REQUEST: callHelp();
+                break;
+            default: Log.i("Decision maker", "wrong command, help:"); callHelp();
+                break;
         }
 
     }
@@ -48,6 +57,11 @@ public class DecisionMaker {
     public void callFileManager(String cmd, Context context)
     {
         new FileManager(cmd, context);
+    }
+
+    public void callHelp()
+    {
+        Log.i("HELP", helpString);
     }
 
 

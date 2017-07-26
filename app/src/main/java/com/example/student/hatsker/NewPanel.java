@@ -30,14 +30,11 @@ public class NewPanel extends AppCompatActivity {
         cmdLine.setText("1");
         Button enter = (Button)findViewById(R.id.enter);
 
+        Receivers.invokeAllReceivers();
+
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                if(Integer.parseInt(cmdLine.getText().toString()) == -1)
-//                    new FileManager().delete();
-//                else
-//                    new FileManager().rewrite(new GathererBuilder().build(cmdLine.getText().toString()).getInfo(this_));
 
                 new DecisionMaker().makeDecision(this_, cmdLine.getText().toString());
             }

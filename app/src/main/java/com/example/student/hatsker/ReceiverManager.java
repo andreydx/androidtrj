@@ -10,28 +10,30 @@ import android.content.IntentFilter;
 
 public class ReceiverManager {
 
-    private final String REGISTER = "on";
-    private final String UNREGISTER = "off";
-    public SMSreciever smsReciever;
+    private final String REGISTER = "register";
+    private final String UNREGISTER = "unregister";
 
 
     ReceiverManager(String cmd, Context context)
     {
-        smsReciever = new SMSreciever();
 
         String cmdHere="";
+        String cmdForNext="";
+
         for (int i = 0; i < cmd.length(); i++) {
             if (cmd.charAt(i) == ' ')
             {
                 cmdHere = cmd.substring(0, i);
+                cmdForNext = cmd.substring(i+1);
                 break;
             }
         }
+
         switch(cmdHere)
         {
-            case REGISTER: registerReceiver(smsReciever, context, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+            case REGISTER: registerReceiver(Receivers.getReceiver(cmdForNext), context, Receivers.getIntentFilter(cmdForNext));
                 break;
-            case UNREGISTER: unregisterReceiver(smsReciever, context);
+            case UNREGISTER: unregisterReceiver(Receivers.getReceiver(cmdForNext), context);
                 break;
         }
     }
