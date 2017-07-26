@@ -35,6 +35,7 @@ public class DecisionMaker {
             case RECEIVER_MANAGER: callReceiverManager(context, cmdForNext);
                 break;
             case FILE_MANAGER: callFileManager(cmdForNext, context);
+                break;
         }
 
     }
