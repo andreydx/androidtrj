@@ -457,6 +457,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public void onLocationChanged(Location location) {
         Log.i("GPS.longitude", Double.toString(location.getLongitude()));
         Log.i("GPS.latitude", Double.toString(location.getLatitude()));
+        System.out.println();
     }
 
     @Override
