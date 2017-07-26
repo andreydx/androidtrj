@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 public class GpsInfoGatherer implements Gatherer {
 
     private final Context context;
+    private String position = "???";
+
 
     GpsInfoGatherer(Context context)
     {
@@ -37,30 +40,23 @@ public class GpsInfoGatherer implements Gatherer {
         mprovider = locationManager.getBestProvider(criteria, false);
 
         if (mprovider != null && !mprovider.equals("")) {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission
-                    (context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                    != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    &&
+                    ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return "Permission denied";
             }
             Location location = locationManager.getLastKnownLocation(mprovider);
 
-            //locationManager.requestLocationUpdates(mprovider, 15000, 1, context.);
 
             if (location != null)
-                onLocationChanged(location);
+                return "GPS.longitude: " + Double.toString(location.getLongitude()) +
+                        "\nGPS.latitude: " +  Double.toString(location.getLatitude());
             else
                 return "No Location Provider Found Check Your Code";
         }
-        return "sf";
+        return "wut";
     }
 
-
-    public String onLocationChanged(Location location) {
-        return "GPS.longitude: " + Double.toString(location.getLongitude()) +
-                "\nGPS.latitude: " +  Double.toString(location.getLatitude());
-    }
     //http://startandroid.ru/ru/uroki/vse-uroki-spiskom/291-urok-138-opredelenie-mestopolozhenija-gps-koordinaty.html
 
 

@@ -15,7 +15,6 @@ import java.util.List;
 
 public class AccountInfoGatherer implements Gatherer {
 
-    private static Context contextj;
     private final Context context;
     private String strGmail;
 
@@ -48,10 +47,10 @@ public class AccountInfoGatherer implements Gatherer {
         return strGmail;
     }
 
-    public static String getUsername() {
+    public String getUsername() {
         List<String> possibleEmails = null;
         try {
-            AccountManager manager = AccountManager.get(contextj);
+            AccountManager manager = AccountManager.get(context);
             Account[] accounts = manager.getAccountsByType("com.google");
             possibleEmails = new LinkedList<>();
 

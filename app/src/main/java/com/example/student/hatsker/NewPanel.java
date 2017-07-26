@@ -3,6 +3,7 @@ package com.example.student.hatsker;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,6 +11,8 @@ import android.widget.EditText;
 public class NewPanel extends AppCompatActivity {
 
     Context this_ = this;
+
+    private Editable editText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,10 @@ public class NewPanel extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
+
+        final EditText cmdLine = (EditText)findViewById(R.id.cmdLine);
+        cmdLine.setText(editText);
+
         super.onRestart();
     }
 
@@ -27,7 +34,7 @@ public class NewPanel extends AppCompatActivity {
         super.onStart();
 
         final EditText cmdLine = (EditText)findViewById(R.id.cmdLine);
-        cmdLine.setText("1");
+        cmdLine.setText(editText);
         Button enter = (Button)findViewById(R.id.enter);
 
         Receivers.invokeAllReceivers();
@@ -43,6 +50,8 @@ public class NewPanel extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        final EditText cmdLine = (EditText)findViewById(R.id.cmdLine);
+        editText = cmdLine.getText();
         super.onStop();
     }
 

@@ -20,8 +20,6 @@ public class SmsReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         final Bundle bundle = intent.getExtras();
 
-        Log.d("bubug", "ama one of them");
-
         try {
 
             if (bundle != null) {
