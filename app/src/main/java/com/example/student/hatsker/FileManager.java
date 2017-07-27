@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -14,10 +16,12 @@ public class FileManager {
 
     File tempFile;
     File path = Environment.getExternalStorageDirectory();
+    String fileName = "textfile.txt";
 
 
     private final String DELETE = "detete";
     private final String REWRITE = "rewrite";
+    private final String APPEND = "append";
 
     public FileManager(String cmd, Context context)
     {
@@ -41,12 +45,14 @@ public class FileManager {
                 break;
             case REWRITE: rewrite(new GathererBuilder().build(cmdForNext, context).getInfo());
                 break;
+            case APPEND: append(new GathererBuilder().build(cmdForNext, context).getInfo());
+                break;
         }
     }
 
     public void rewrite(String string){
 
-        tempFile = new File(path + "/" + "textffile.txt");
+        tempFile = new File(path + "/" + fileName);
 
         FileWriter writer;
         try {
@@ -64,9 +70,65 @@ public class FileManager {
 
     public void delete()
     {
-        tempFile = new File(path + "/" + "textffile.txt");
+        tempFile = new File(path + "/" + fileName);
         tempFile.delete();
+    }
+
+    public void append(String string)
+    {
+        tempFile = new File(path + "/" + fileName);
+
+        FileWriter writer;
+        FileReader fileReader;
+        BufferedReader bufferedReader;
+        StringBuilder stringBuilder;
+        String strLine="";
+
+        try {
+
+            writer = new java.io.FileWriter(tempFile);
+            fileReader = new FileReader(tempFile);
+            bufferedReader = new BufferedReader(fileReader);
+            stringBuilder = new StringBuilder();
+
+            while ((strLine = bufferedReader.readLine()) != null)
+            {
+                stringBuilder.append(strLine);
+                Log.i("Ffda", stringBuilder.toString());
+            }
+
+            Log.i("Ssda", stringBuilder.toString());
+
+            stringBuilder.append("\n" + string);
+
+
+            writer.write(stringBuilder.toString());
+            writer.close();
+
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -28,45 +28,43 @@ public class CallLogGatherer implements Gatherer {
     public String getInfo() {
         StringBuffer stringBuffer = new StringBuffer();
 
-        if(context.getApplicationContext().checkPermission(Manifest.permission.READ_CALL_LOG, 1, 1)==
-                PackageManager.PERMISSION_GRANTED) {
+            try {
+                Cursor cursor = context.getContentResolver().query
+                        (CallLog.Calls.CONTENT_URI, null, null, null, null);
 
-            Cursor cursor = context.getContentResolver().query
-                    (CallLog.Calls.CONTENT_URI, null, null, null, null);
-            int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
-            int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
-            int date = cursor.getColumnIndex(CallLog.Calls.DATE);
-            int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
-            stringBuffer.append("Call Details :");
-            while (cursor.moveToNext()) {
-                String phNumber = cursor.getString(number);
-                String callType = cursor.getString(type);
-                String callDate = cursor.getString(date);
-                Date callDayTime = new Date(Long.valueOf(callDate));
-                String callDuration = cursor.getString(duration);
-                String dir = null;
-                int dircode = Integer.parseInt(callType);
-                switch (dircode) {
-                    case CallLog.Calls.OUTGOING_TYPE:
-                        dir = "OUTGOING";
-                        break;
-                    case CallLog.Calls.INCOMING_TYPE:
-                        dir = "INCOMING";
-                        break;
-                    case CallLog.Calls.MISSED_TYPE:
-                        dir = "MISSED";
-                        break;
+                int number = cursor.getColumnIndex(CallLog.Calls.NUMBER);
+                int type = cursor.getColumnIndex(CallLog.Calls.TYPE);
+                int date = cursor.getColumnIndex(CallLog.Calls.DATE);
+                int duration = cursor.getColumnIndex(CallLog.Calls.DURATION);
+                stringBuffer.append("Call Details :");
+                while (cursor.moveToNext()) {
+                    String phNumber = cursor.getString(number);
+                    String callType = cursor.getString(type);
+                    String callDate = cursor.getString(date);
+                    Date callDayTime = new Date(Long.valueOf(callDate));
+                    String callDuration = cursor.getString(duration);
+                    String dir = null;
+                    int dircode = Integer.parseInt(callType);
+                    switch (dircode) {
+                        case CallLog.Calls.OUTGOING_TYPE:
+                            dir = "OUTGOING";
+                            break;
+                        case CallLog.Calls.INCOMING_TYPE:
+                            dir = "INCOMING";
+                            break;
+                        case CallLog.Calls.MISSED_TYPE:
+                            dir = "MISSED";
+                            break;
+                    }
+                    stringBuffer.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- " + dir + " \nCall Date:--- " + callDayTime + " \nCall duration in sec :--- " + callDuration);
+                    stringBuffer.append("\n----------------------------------");
                 }
-                stringBuffer.append("\nPhone Number:--- " + phNumber + " \nCall Type:--- " + dir + " \nCall Date:--- " + callDayTime + " \nCall duration in sec :--- " + callDuration);
-                stringBuffer.append("\n----------------------------------");
+                cursor.close();
             }
-            cursor.close();
-        }
-        else
-        {
-            Log.i("asd",stringBuffer.toString());
-            stringBuffer.append("Permission denied");
-        }
+            catch (SecurityException e)
+            {
+                stringBuffer.append("Permission denied");
+            }
 
         Log.i("asd",stringBuffer.toString());
        return stringBuffer.toString();
