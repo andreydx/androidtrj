@@ -10,6 +10,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.Scanner;
 
 
 public class FileManager {
@@ -60,6 +64,7 @@ public class FileManager {
             writer = new java.io.FileWriter(tempFile);
             writer.write(string);
             writer.close();
+            Log.i("writer", "reached");
 
         }
         catch (IOException e)
@@ -76,39 +81,26 @@ public class FileManager {
 
     public void append(String string)
     {
-        tempFile = new File(path + "/" + fileName);
 
         FileWriter writer;
-        FileReader fileReader;
-        BufferedReader bufferedReader;
         StringBuilder stringBuilder;
-        String strLine="";
 
         try {
 
-            writer = new java.io.FileWriter(tempFile);
-            fileReader = new FileReader(tempFile);
-            bufferedReader = new BufferedReader(fileReader);
+            writer = new java.io.FileWriter(path + "/" + fileName, true);
             stringBuilder = new StringBuilder();
-
-            while ((strLine = bufferedReader.readLine()) != null)
-            {
-                stringBuilder.append(strLine);
-                Log.i("Ffda", stringBuilder.toString());
-            }
-
-            Log.i("Ssda", stringBuilder.toString());
 
             stringBuilder.append("\n" + string);
 
-
-            writer.write(stringBuilder.toString());
+            writer.append(stringBuilder.toString());
             writer.close();
+
 
         }
         catch (IOException e)
         {
             e.printStackTrace();
+            Log.i("sdf", "IOException");
         }
 
 
